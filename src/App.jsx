@@ -1,10 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import { HashRouter, Route, Switch } from "react-router-dom";
+import Welcome from "./main/welcome.jsx";
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello!</h1>
+      <HashRouter>
+        <Switch>
+          <Route exact path="/" component={Welcome} />
+        </Switch>
+      </HashRouter>
     </div>
   );
 }
