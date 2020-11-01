@@ -8,15 +8,14 @@ class TriviaGame extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      randomQuestions: null,
-      currAnswer: "",
-      count: 0,
+      randomQuestions: null, // will be populated with questions in componentDidMount
+      currAnswer: "", // populated in handleChange when selecting possible answers for question
+      count: 0, // incremented to track currect question
       score: 0,
       showResultModal: false,
-      disabled: false // toggle enable/disable submit button
+      disableSubmitButton: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleCloseResultModal = this.handleCloseResultModal.bind(this);
   }
 
   componentDidMount() {
@@ -31,25 +30,20 @@ class TriviaGame extends React.Component {
     this.setState({ randomQuestions: questions })
   }
 
-  // handleCloseResultModal(e) {
-  //   e.stopPropagation();
-  //   this.setState({ showResultModal: false })
-  // }
-
   handleSubmit(e, question) {
     e.preventDefault();
-    this.setState({ disabled: true }) // disabled submit button while results show
+    this.setState({ disableSubmitButton: true }) // disabled submit button while results show
     const newCount = this.state.count + 1; // increment number of questions asked in state every time
     
-    if (question.correct === this.state.currAnswer) { // for correct answer display correct and increment score
+    if (question.correct === this.state.currAnswer) { // display correct and increment score
       document.getElementById("answer-result").innerHTML = "Correct!"
       const incrementedScore = this.state.score + 1;
       this.setState({ score: incrementedScore })
-    } else { // for incorrect answer
+    } else { // display incorrect answer prompt
       document.getElementById("answer-result").innerHTML = "Incorrect! The answer was " + question.correct
     }
     
-    setTimeout(() => { // only show current result for a few seconds
+    setTimeout(() => {
       document.getElementById("answer-result").innerHTML = "" // clear text for result
       this.setState({ count: newCount, disabled: false }) // change state at end
 
@@ -87,7 +81,7 @@ class TriviaGame extends React.Component {
             </div>
           )) : null }
           </fieldset>
-          <button disabled={ this.state.disabled }>Submit</button> {/* submit answer */}
+          <button disabled={ this.state.disableSubmitButton }>Submit</button> {/* submit answer */}
         </form>
 
         {/* shows if current answer was correct or incorrect */}
@@ -98,7 +92,6 @@ class TriviaGame extends React.Component {
               id="create-channel-modal"
               isOpen={this.state.showResultModal}
               contentLabel="Delete Server Modal"
-              // onRequestClose={this.handleCloseResultModal}
               style={{
                 content: {
                   top: '50%',
@@ -108,7 +101,6 @@ class TriviaGame extends React.Component {
                   marginLeft: "-245px",
                   marginTop: "-175px",
                   overflow: "hidden",
-                  marginTop: "-170px",
                   width: "440px",
                   height: "255px",
                   backgroundColor: "#36393f",

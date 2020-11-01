@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import "./welcome.css";
 
 class Welcome extends React.Component {
-  constructor(props) {
-    super(props)
-  }
 
   render() {
     return(
@@ -15,6 +12,7 @@ class Welcome extends React.Component {
       </div>
     )
   }
+  
 }
 
 export default Welcome;
