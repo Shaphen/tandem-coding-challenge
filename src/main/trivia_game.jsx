@@ -7,6 +7,7 @@ class TriviaGame extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      randomQuestions: null,
       currAnswer: "",
       count: 0,
       score: 0,
@@ -16,6 +17,12 @@ class TriviaGame extends React.Component {
     // this.handleCloseResultModal = this.handleCloseResultModal.bind(this);
   }
 
+  componentDidMount() {
+    const questions = Questions.sort(() => Math.random() - 0.5) // randomize copy of questions list;
+    const tenQuestions = questions.slice(11) // picks first 10 questions of randomized list
+    this.setState({ randomQuestions: tenQuestions })
+  }
+
   // handleCloseResultModal(e) {
   //   e.stopPropagation();
   //   this.setState({ showResultModal: false })
@@ -23,44 +30,51 @@ class TriviaGame extends React.Component {
 
   handleSubmit(e, question) {
     e.preventDefault();
-    debugger
-    if (this.state.count === 10) {
+    if (this.state.count === 9) {
       this.setState({ showResultModal: true })
     } else {
       const newCount = this.state.count + 1;
+      if (question.correct === this.state.currAnswer) {
+        document.getElementById("answer-result").innerHTML = "Correct!"
+        const incrementedScore = this.state.score + 1;
+        this.setState({ score: incrementedScore })
+      } else {
+        document.getElementById("answer-result").innerHTML = "Incorrect! The answer was " + question.correct
+      }
+
       this.setState({ count: newCount })
     }
   }
 
   handleChange(type) {
     return e => {
-      debugger
-      this.setState({ [type]: e.target.answer })
+      this.setState({ [type]: e.target.id })
     }
   }
 
   render() {
-    const randomizeQuestions = Questions.sort(() => Math.random() - 0.5) // randomize copy of questions list
-    const tenQuestions = randomizeQuestions.slice(9) // picks first 10 questions of randomized list
-    const currQuestion = tenQuestions[this.state.count]
-    const possibleAnswers = [currQuestion.correct, ...currQuestion.incorrect]
+    const questions = this.state.randomQuestions
+    const currQuestion = questions ? questions[this.state.count] : null
+    const possibleAnswers = currQuestion ? [currQuestion.correct, ...currQuestion.incorrect] : null
+    const correctAnswer = currQuestion ? currQuestion.correct : null
     return(
       <div className="trivia-container">
         <p id="trivia-title">This is the trivia Game Section</p>
         <form onSubmit={ e => this.handleSubmit(e, currQuestion) }>
           <label>
-            { currQuestion.question }
+            { currQuestion ? currQuestion.question : null }
           </label>
           <fieldset onChange={this.handleChange("currAnswer")}>
-          { possibleAnswers.map((answer, idx) => (
+          { possibleAnswers ? possibleAnswers.map((answer, idx) => (
             <div key={ idx }>
-              <input type="radio" answer={ answer } key={ idx } id={ idx } name="option" />
-              <label htmlFor={ idx } key={ idx + 1 }>{ answer }</label>
+              <input type="radio" key={ idx } id={ answer } name="option" />
+              <label htmlFor={ answer } key={ idx + 1 }>{ answer }</label>
             </div>
-          ))}
+          )) : null }
           </fieldset>
           <button>Submit</button>
         </form>
+        <label id="answer-result"></label>
         <Modal
               id="create-channel-modal"
               isOpen={this.state.showResultModal}
