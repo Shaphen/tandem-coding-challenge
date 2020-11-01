@@ -30,20 +30,21 @@ class TriviaGame extends React.Component {
 
   handleSubmit(e, question) {
     e.preventDefault();
-    if (this.state.count === 9) {
-      this.setState({ showResultModal: true })
-    } else {
-      const newCount = this.state.count + 1;
-      if (question.correct === this.state.currAnswer) {
-        document.getElementById("answer-result").innerHTML = "Correct!"
-        const incrementedScore = this.state.score + 1;
-        this.setState({ score: incrementedScore })
-      } else {
-        document.getElementById("answer-result").innerHTML = "Incorrect! The answer was " + question.correct
-      }
-
-      this.setState({ count: newCount })
+    const newCount = this.state.count + 1; // increment number of questions asked in state every time
+    if (question.correct === this.state.currAnswer) { // for correct answer display correct and increment score
+      document.getElementById("answer-result").innerHTML = "Correct!"
+      const incrementedScore = this.state.score + 1;
+      this.setState({ score: incrementedScore })
+    } else { // for incorrect answer
+      document.getElementById("answer-result").innerHTML = "Incorrect! The answer was " + question.correct
     }
+    setTimeout(() => { // only show current result for a few seconds
+      document.getElementById("answer-result").innerHTML = "" // clear text for result
+      this.setState({ count: newCount }) // set count at end 
+      if (this.state.count === 9) { // show final results modal with score if 10 questions are asked
+      this.setState({ showResultModal: true })
+      }
+    }, 3000);
   }
 
   handleChange(type) {
