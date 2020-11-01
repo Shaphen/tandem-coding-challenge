@@ -19,8 +19,12 @@ class TriviaGame extends React.Component {
 
   componentDidMount() {
     const questions = Questions.sort(() => Math.random() - 0.5) // randomize copy of questions list;
-    const tenQuestions = questions.slice(11) // picks first 10 questions of randomized list
-    this.setState({ randomQuestions: tenQuestions })
+    questions.map(q => {
+      let answers = [q.correct, ...q.incorrect]
+      let mixed = answers.sort(() => Math.random() - 0.5)
+      return q.allPossibleAnswers = mixed
+    })
+    this.setState({ randomQuestions: questions })
   }
 
   // handleCloseResultModal(e) {
@@ -40,7 +44,7 @@ class TriviaGame extends React.Component {
     }
     setTimeout(() => { // only show current result for a few seconds
       document.getElementById("answer-result").innerHTML = "" // clear text for result
-      this.setState({ count: newCount }) // set count at end 
+      this.setState({ count: newCount }) // change state at end
       if (this.state.count === 9) { // show final results modal with score if 10 questions are asked
       this.setState({ showResultModal: true })
       }
@@ -56,8 +60,9 @@ class TriviaGame extends React.Component {
   render() {
     const questions = this.state.randomQuestions
     const currQuestion = questions ? questions[this.state.count] : null
-    const possibleAnswers = currQuestion ? [currQuestion.correct, ...currQuestion.incorrect] : null
-    const correctAnswer = currQuestion ? currQuestion.correct : null
+    const possibleAnswers = currQuestion ? currQuestion.allPossibleAnswers : null
+    // const possibleAnswers = currQuestion ? [currQuestion.correct, ...currQuestion.incorrect] : null
+    // const mixedAnswers = possibleAnswers ? possibleAnswers.sort(() => Math.random() - 0.5) : null
     return(
       <div className="trivia-container">
         <p id="trivia-title">This is the trivia Game Section</p>
