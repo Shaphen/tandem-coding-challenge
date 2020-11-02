@@ -57,7 +57,6 @@ class TriviaGame extends React.Component {
 
   handleChange(type) {
     return e => {
-      debugger
       this.setState({ [type]: e.target.id })
     }
   }
@@ -78,7 +77,7 @@ class TriviaGame extends React.Component {
             <label id="current-question">
               { currQuestion ? currQuestion.question : null } {/* display currect question */}
             </label>
-            <fieldset id="answers-container" onChange={this.handleChange("currAnswer")}> {/* display selection of answers */}
+            <fieldset id="answers-container"> {/* display selection of answers */}
             { possibleAnswers ? possibleAnswers.map((answer, idx) => (
               <div id="answer-box" key={ idx }>
                 <input 
@@ -88,7 +87,8 @@ class TriviaGame extends React.Component {
                   key={ idx } 
                   id={ answer } 
                   name="option" 
-                  value={ answer } 
+                  value={ answer }
+                  onChange={this.handleChange("currAnswer")}
                 />
                 <label 
                   className="answer-text" 
