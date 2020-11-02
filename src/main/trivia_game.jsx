@@ -45,7 +45,7 @@ class TriviaGame extends React.Component {
     
     setTimeout(() => {
       document.getElementById("answer-result").innerHTML = "" // clear text for result
-      this.setState({ count: newCount, disabled: false }) // change state at end
+      this.setState({ count: newCount, disableSubmitButton: false }) // change state at end
 
       if (this.state.count === 9) { // show final results modal with score if 10 questions are asked
       this.setState({ showResultModal: true })
