@@ -36,18 +36,20 @@ class TriviaGame extends React.Component {
     const newCount = this.state.count + 1; // increment number of questions asked in state every time
     
     if (question.correct === this.state.currAnswer) { // display correct and increment score
-      document.getElementById("answer-result").innerHTML = "Correct!"
+      let answerResult1 = document.getElementById("answer-result")
+      answerResult1.innerHTML = "Correct!"
       const incrementedScore = this.state.score + 1;
       this.setState({ score: incrementedScore })
     } else { // display incorrect answer prompt
-      document.getElementById("answer-result").innerHTML = "Incorrect! The answer was " + question.correct
+      let answerResult2 = document.getElementById("answer-result")
+      answerResult2.innerHTML = "Incorrect! The answer was " + question.correct
     }
     
     setTimeout(() => {
       document.getElementById("answer-result").innerHTML = "" // clear text for result
-      this.setState({ count: newCount, disableSubmitButton: false }) // change state at end
+      this.setState({ count: newCount, disableSubmitButton: false, currAnswer: "" }) // change state at end
 
-      if (this.state.count === 9) { // show final results modal with score if 10 questions are asked
+      if (this.state.count === 10) { // show final results modal with score if 10 questions are asked
       this.setState({ showResultModal: true })
       }
     }, 3000);
@@ -55,6 +57,7 @@ class TriviaGame extends React.Component {
 
   handleChange(type) {
     return e => {
+      debugger
       this.setState({ [type]: e.target.id })
     }
   }
@@ -67,8 +70,8 @@ class TriviaGame extends React.Component {
     return(
       <div id="trivia-page">
         {/* shows if current answer was correct or incorrect */}
-        <label id="answer-result">This is text</label>
-        
+        <label id="answer-result"></label>
+
         <div className="trivia-container">
           {/* trivia game section */}
           <form id="trivia-form" onSubmit={ e => this.handleSubmit(e, currQuestion) }>
@@ -78,19 +81,34 @@ class TriviaGame extends React.Component {
             <fieldset id="answers-container" onChange={this.handleChange("currAnswer")}> {/* display selection of answers */}
             { possibleAnswers ? possibleAnswers.map((answer, idx) => (
               <div id="answer-box" key={ idx }>
-                <input className="answer-bubble" type="radio" key={ idx } id={ answer } name="option" />
-                <label className="answer-text" id="test" htmlFor={ answer } key={ idx + 1 }>{ answer }</label>
+                <input 
+                  className="answer-bubble" 
+                  checked={this.state.currAnswer === answer} 
+                  type="radio" 
+                  key={ idx } 
+                  id={ answer } 
+                  name="option" 
+                  value={ answer } 
+                />
+                <label 
+                  className="answer-text" 
+                  id="test" 
+                  htmlFor={ answer } 
+                  key={ idx + 1 }
+                >{ answer }</label>
               </div>
             )) : null }
             </fieldset>
-            <button id="submit-button" disabled={ this.state.disableSubmitButton }>Submit</button> {/* submit answer */}
+            <button 
+              id="submit-button" 
+              disabled={ this.state.disableSubmitButton }>Submit</button> {/* submit answer */}
           </form>
 
           {/* Modal to show results at end */}
           <Modal
-            id="create-channel-modal"
+            id="show-result-modal"
             isOpen={this.state.showResultModal}
-            contentLabel="Delete Server Modal"
+            contentLabel="Show Result Modal"
             style={{
               content: {
                 top: '50%',
@@ -101,7 +119,7 @@ class TriviaGame extends React.Component {
                 marginTop: "-175px",
                 overflow: "hidden",
                 width: "440px",
-                height: "255px",
+                height: "160px",
                 backgroundColor: "#36393f",
                 border: "none",
                 color: "white"
@@ -123,5 +141,4 @@ class TriviaGame extends React.Component {
     )
   }
 }
-
 export default TriviaGame;
