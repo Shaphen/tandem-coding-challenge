@@ -66,22 +66,21 @@ class TriviaGame extends React.Component {
     
     return(
       <div className="trivia-container">
-        <p id="trivia-title">This is the trivia Game Section</p>
 
         {/* trivia game section */}
-        <form onSubmit={ e => this.handleSubmit(e, currQuestion) }>
-          <label>
+        <form id="trivia-form" onSubmit={ e => this.handleSubmit(e, currQuestion) }>
+          <label id="current-question">
             { currQuestion ? currQuestion.question : null } {/* display currect question */}
           </label>
-          <fieldset onChange={this.handleChange("currAnswer")}> {/* display selection of answers */}
+          <fieldset id="answers-container" onChange={this.handleChange("currAnswer")}> {/* display selection of answers */}
           { possibleAnswers ? possibleAnswers.map((answer, idx) => (
-            <div key={ idx }>
-              <input type="radio" key={ idx } id={ answer } name="option" />
-              <label htmlFor={ answer } key={ idx + 1 }>{ answer }</label>
+            <div id="answer-box" key={ idx }>
+              <input className="answer-bubble" type="radio" key={ idx } id={ answer } name="option" />
+              <label className="answer-text" id="test" htmlFor={ answer } key={ idx + 1 }>{ answer }</label>
             </div>
           )) : null }
           </fieldset>
-          <button disabled={ this.state.disableSubmitButton }>Submit</button> {/* submit answer */}
+          <button id="submit-button" disabled={ this.state.disableSubmitButton }>Submit</button> {/* submit answer */}
         </form>
 
         {/* shows if current answer was correct or incorrect */}
@@ -114,9 +113,9 @@ class TriviaGame extends React.Component {
                 }}}
             >
               <div>
-                <p>FINAL SCORE:</p>
-                <label>{ this.state.score }/10</label>
-                <Link to="/">Reset Game</Link>
+                <p id="final-score-text">FINAL SCORE:</p>
+                <label id="final-score">{ this.state.score }/10</label>
+                <Link id="go-back" to="/">Reset Game</Link>
               </div>
             </Modal>
       </div>
