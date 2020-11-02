@@ -65,59 +65,60 @@ class TriviaGame extends React.Component {
     const possibleAnswers = currQuestion ? currQuestion.allPossibleAnswers : null
     
     return(
-      <div className="trivia-container">
-
-        {/* trivia game section */}
-        <form id="trivia-form" onSubmit={ e => this.handleSubmit(e, currQuestion) }>
-          <label id="current-question">
-            { currQuestion ? currQuestion.question : null } {/* display currect question */}
-          </label>
-          <fieldset id="answers-container" onChange={this.handleChange("currAnswer")}> {/* display selection of answers */}
-          { possibleAnswers ? possibleAnswers.map((answer, idx) => (
-            <div id="answer-box" key={ idx }>
-              <input className="answer-bubble" type="radio" key={ idx } id={ answer } name="option" />
-              <label className="answer-text" id="test" htmlFor={ answer } key={ idx + 1 }>{ answer }</label>
-            </div>
-          )) : null }
-          </fieldset>
-          <button id="submit-button" disabled={ this.state.disableSubmitButton }>Submit</button> {/* submit answer */}
-        </form>
-
+      <div id="trivia-page">
         {/* shows if current answer was correct or incorrect */}
-        <label id="answer-result"></label>
-
-        {/* Modal to show results at end */}
-        <Modal
-              id="create-channel-modal"
-              isOpen={this.state.showResultModal}
-              contentLabel="Delete Server Modal"
-              style={{
-                content: {
-                  top: '50%',
-                  left: '50%',
-                  right: '0',
-                  bottom: '0',
-                  marginLeft: "-245px",
-                  marginTop: "-175px",
-                  overflow: "hidden",
-                  width: "440px",
-                  height: "255px",
-                  backgroundColor: "#36393f",
-                  border: "none",
-                  color: "white"
-                },
-                overlay: {
-                  position: 'fixed',
-                  backgroundColor: 'rgba(0,0,0,0.7)',
-                  zIndex: '50'
-                }}}
-            >
-              <div>
-                <p id="final-score-text">FINAL SCORE:</p>
-                <label id="final-score">{ this.state.score }/10</label>
-                <Link id="go-back" to="/">Reset Game</Link>
+        <label id="answer-result">This is text</label>
+        
+        <div className="trivia-container">
+          {/* trivia game section */}
+          <form id="trivia-form" onSubmit={ e => this.handleSubmit(e, currQuestion) }>
+            <label id="current-question">
+              { currQuestion ? currQuestion.question : null } {/* display currect question */}
+            </label>
+            <fieldset id="answers-container" onChange={this.handleChange("currAnswer")}> {/* display selection of answers */}
+            { possibleAnswers ? possibleAnswers.map((answer, idx) => (
+              <div id="answer-box" key={ idx }>
+                <input className="answer-bubble" type="radio" key={ idx } id={ answer } name="option" />
+                <label className="answer-text" id="test" htmlFor={ answer } key={ idx + 1 }>{ answer }</label>
               </div>
-            </Modal>
+            )) : null }
+            </fieldset>
+            <button id="submit-button" disabled={ this.state.disableSubmitButton }>Submit</button> {/* submit answer */}
+          </form>
+
+          {/* Modal to show results at end */}
+          <Modal
+            id="create-channel-modal"
+            isOpen={this.state.showResultModal}
+            contentLabel="Delete Server Modal"
+            style={{
+              content: {
+                top: '50%',
+                left: '50%',
+                right: '0',
+                bottom: '0',
+                marginLeft: "-245px",
+                marginTop: "-175px",
+                overflow: "hidden",
+                width: "440px",
+                height: "255px",
+                backgroundColor: "#36393f",
+                border: "none",
+                color: "white"
+              },
+              overlay: {
+                position: 'fixed',
+                backgroundColor: 'rgba(0,0,0,0.7)',
+                zIndex: '50'
+              }}}
+              >
+            <div>
+              <p id="final-score-text">FINAL SCORE:</p>
+              <label id="final-score">{ this.state.score }/10</label>
+              <Link id="go-back" to="/">Reset Game</Link>
+            </div>
+          </Modal>
+        </div>
       </div>
     )
   }
