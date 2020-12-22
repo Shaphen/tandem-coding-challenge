@@ -1,5 +1,5 @@
 ## Tandem Challenge Notes (README):
-Thank you Tandem for allowing me the opportunity to take this challenge. Here you will find my completed product with information on various decisions I made throughout the process. Below are a few pictures and gifs for your reference along with instructiosn for running the software on your local server:
+Here you will find information on various decisions I made throughout the process of creating this small trivia game. Below are a few pictures and gifs for your reference along with instructiosn for running the software on your local server:
 
 ### How To Run Software
 * download ZIP and extract files in desired location
